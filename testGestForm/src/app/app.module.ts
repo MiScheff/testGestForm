@@ -8,6 +8,7 @@ import { AboutComponent } from './about/about.component';
 import { FunctionalityComponent } from './functionality/functionality.component';
 import { RouterModule } from '@angular/router';
 import { routes } from './app.routes';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { routes } from './app.routes';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

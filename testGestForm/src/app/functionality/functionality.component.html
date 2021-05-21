@@ -1,1 +1,33 @@
-<p>functionality works!</p>
+<div class="p-4">
+	<h2 class="text-xl pb-2">Functionality</h2>
+	<p>Generate :</p>
+	<button class="rounded bg-yellow-500 mr-1 px-2 py-1 text-white" data-test="generate-10" (click)="generateRandomNumbers(10)">10 random numbers</button>
+	<button class="rounded bg-yellow-500 mx-1 px-2 py-1 text-white" data-test="generate-20" (click)="generateRandomNumbers(20)">20 random numbers</button>
+	<button class="rounded bg-yellow-500 mx-1 px-2 py-1 text-white" data-test="generate-50" (click)="generateRandomNumbers(50)">50 random numbers</button>
+
+	<div>
+		<input type="number"
+					 min="0"
+					 placeholder="Amount to generate"
+					 class="bg-white border-2 border-yellow-500 rounded my-1 mr-1 p-1"
+					 data-test="amount-of-number"
+					 #amountNumber
+					 (change)="tst(amountNumber.value)">
+
+		<button *ngIf="amountNumber.value > 0"
+						class="rounded bg-yellow-500 mr-1 px-2 py-1 text-white"
+						data-test="generate-custom"
+						(click)="generateRandomNumbers(amountNumber.value)">Generate {{ amountNumber.value }} random number</button>
+	</div>
+
+	<div class="my-3 p-4 border-2 border-yellow-500 rounded-md">
+		<p class="mb-2">The randomly generated list :
+			<span class="font-mono mx-1 mb-1 px-1 bg-gray-200 inline-block"
+						data-test="random-number"
+						*ngFor="let number of randomNumbers">{{ number }}</span>
+		</p>
+		<ul class="list-inside list-disc">
+			<li *ngFor="let number of randomNumbers" data-test="result">{{ handleNumber(number) }}</li>
+		</ul>
+	</div>
+</div>

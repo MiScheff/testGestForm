@@ -25,15 +25,15 @@ describe('HeaderComponent', () => {
   });
 
   it('should have a title that contains "GestForm"', () => {
-    const title = fixture.debugElement.query(By.css('h1')).nativeElement;
+    const title = fixture.debugElement.query(By.css('[data-test=title]')).nativeElement;
 
     expect(title).toBeTruthy();
     expect(title.innerHTML).toContain('GestForm');
   });
 
   it('should have a menu with a "Functionality" button and an "About" link', () => {
-    const menu = fixture.debugElement.query(By.css('nav'));
-    const menuItemLinks = fixture.debugElement.queryAll(By.css('.menu-item-link'));
+    const menu = fixture.debugElement.query(By.css('[data-test=navigation]'));
+    const menuItemLinks = fixture.debugElement.queryAll(By.css('[data-test=menu-item-link]'));
 
     expect(menu).toBeTruthy();
     expect(menuItemLinks.length).toEqual(2);
