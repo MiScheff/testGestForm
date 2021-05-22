@@ -20,6 +20,7 @@ export class FunctionalityComponent implements OnInit {
   }
 
   // Return the correct response according to the divisibility of the random number
+  // Return a string if its somehow divisible, return a number if its not
   handleNumber(randomNumber: number): string | number {
     const isDivisibleBy3 = this.isNumberDivisibleBy(randomNumber, 3);
     const isDivisibleBy5 = this.isNumberDivisibleBy(randomNumber, 5);
@@ -37,10 +38,5 @@ export class FunctionalityComponent implements OnInit {
 
   generateRandomNumbers(amount: number): void {
     this.randomNumbers = _.times(amount, () => _.random(-1000, 1000));
-  }
-
-  tst(val) {
-    console.log(val);
-    
   }
 }

@@ -25,7 +25,9 @@ describe('FunctionalityComponent', () => {
   });
 
   it('should generate a random list of integer between -1000 and 1000', () => {
-    component.randomNumbers.forEach(randomNumber => {
+    const randomList = component.randomNumbers;
+
+    randomList.forEach(randomNumber => {
       expect(randomNumber).toBeGreaterThanOrEqual(-1000);
       expect(randomNumber).toBeLessThanOrEqual(1000);
     });
@@ -33,10 +35,10 @@ describe('FunctionalityComponent', () => {
 
   it('should display the list of random numbers', () => {
     const numbers = fixture.debugElement.queryAll(By.css('[data-test=random-number]'));
+    const randomList = component.randomNumbers;
 
     expect(numbers.length).toEqual(component.randomNumbers.length);
-
-    component.randomNumbers.forEach((randomNumber, index) => {
+    randomList.forEach((randomNumber, index) => {
       expect(+numbers[index].nativeElement.innerHTML).toEqual(randomNumber);
     });
   });
@@ -45,45 +47,67 @@ describe('FunctionalityComponent', () => {
     const results = fixture.debugElement.queryAll(By.css('[data-test=result]'));
 
     results.forEach((result, index) => {
+      // We parse the result of handleNumber to a string in case handleNumber return a number (if the number is not divisible)
       expect(result.nativeElement.innerHTML).toEqual(component.handleNumber(component.randomNumbers[index]) + '');
     });
   });
 
   describe('Random number generation buttons', () => {
-    it('should display a button to generate 10 random numbers', () => {
-      const oldNumbers = component.randomNumbers;
-      const button = fixture.debugElement.query(By.css('[data-test=generate-10]'));
+    describe('Generate 10 random numbers button', () => {
+      it('should display a button to generate 10 random numbers', () => {
+        const button = fixture.debugElement.query(By.css('[data-test=generate-10]'));
 
-      button.triggerEventHandler('click', null);
+        expect(button).toBeTruthy();
+      });
 
-      expect(button).toBeTruthy();
-      expect(component.randomNumbers.length).toEqual(10);
-      expect(component.randomNumbers).not.toEqual(oldNumbers);
+      it('should generate 10 random numbers when clicked', () => {
+        const oldNumbers = component.randomNumbers;
+        const button = fixture.debugElement.query(By.css('[data-test=generate-10]'));
+
+        button.triggerEventHandler('click', null);
+
+        expect(component.randomNumbers.length).toEqual(10);
+        expect(component.randomNumbers).not.toEqual(oldNumbers);
+      });
     });
 
-    it('should display a button to generate 20 random numbers', () => {
-      const oldNumbers = component.randomNumbers;
-      const button = fixture.debugElement.query(By.css('[data-test=generate-20]'));
+    describe('Generate 20 random numbers button', () => {
+      it('should display a button to generate 20 random numbers', () => {
+        const button = fixture.debugElement.query(By.css('[data-test=generate-20]'));
 
-      button.triggerEventHandler('click', null);
-      
-      expect(button).toBeTruthy();
-      expect(component.randomNumbers.length).toEqual(20);
-      expect(component.randomNumbers).not.toEqual(oldNumbers);
+        expect(button).toBeTruthy();
+      });
+
+      it('should generate 20 random numbers when clicked', () => {
+        const oldNumbers = component.randomNumbers;
+        const button = fixture.debugElement.query(By.css('[data-test=generate-20]'));
+
+        button.triggerEventHandler('click', null);
+
+        expect(component.randomNumbers.length).toEqual(20);
+        expect(component.randomNumbers).not.toEqual(oldNumbers);
+      });
     });
 
-    it('should display a button to generate 50 random numbers', () => {
-      const oldNumbers = component.randomNumbers;
-      const button = fixture.debugElement.query(By.css('[data-test=generate-50]'));
+    describe('Generate 50 random numbers button', () => {
+      it('should display a button to generate 50 random numbers', () => {
+        const button = fixture.debugElement.query(By.css('[data-test=generate-50]'));
 
-      button.triggerEventHandler('click', null);
-      
-      expect(button).toBeTruthy();
-      expect(component.randomNumbers.length).toEqual(50);
-      expect(component.randomNumbers).not.toEqual(oldNumbers);
+        expect(button).toBeTruthy();
+      });
+
+      it('should generate 50 random numbers when clicked', () => {
+        const oldNumbers = component.randomNumbers;
+        const button = fixture.debugElement.query(By.css('[data-test=generate-50]'));
+
+        button.triggerEventHandler('click', null);
+
+        expect(component.randomNumbers.length).toEqual(50);
+        expect(component.randomNumbers).not.toEqual(oldNumbers);
+      });
     });
 
-    describe('Custom random number generation button', () => {
+    describe('Generate a custom amount of random numbers button', () => {
       it('should display an input to enter an amount of number randomly generated', () => {
         const inputNumber = fixture.debugElement.query(By.css('[data-test=amount-of-number]'));
 
@@ -92,34 +116,34 @@ describe('FunctionalityComponent', () => {
 
       it('should show a button to generate the amount of random number when a number is typed', () => {
         const input = document.querySelector('[data-test=amount-of-number]') as HTMLInputElement;
-        const buttonNotFound = fixture.debugElement.query(By.css('[data-test=generate-custom]'));
-        expect(buttonNotFound).toBeFalsy();
+        let button = fixture.debugElement.query(By.css('[data-test=generate-custom]'));
+        expect(button).toBeFalsy();
 
         input.value = '3';
         fixture.detectChanges();
 
-        const buttonFound = fixture.debugElement.query(By.css('[data-test=generate-custom]'));
-        expect(buttonFound).toBeTruthy();
+        button = fixture.debugElement.query(By.css('[data-test=generate-custom]'));
+        expect(button).toBeTruthy();
       });
 
       it('should not show a button to generate the amount of random number when anything else than a number is typed', () => {
         const input = document.querySelector('[data-test=amount-of-number]') as HTMLInputElement;
-        const buttonNotFound = fixture.debugElement.query(By.css('[data-test=generate-custom]'));
-        expect(buttonNotFound).toBeFalsy();
+        let button = fixture.debugElement.query(By.css('[data-test=generate-custom]'));
+        expect(button).toBeFalsy();
 
         input.value = 'Not a number';
         fixture.detectChanges();
 
-        const buttonFound = fixture.debugElement.query(By.css('[data-test=generate-custom]'));
-        expect(buttonFound).toBeFalsy();
+        button = fixture.debugElement.query(By.css('[data-test=generate-custom]'));
+        expect(button).toBeFalsy();
       });
 
       it('should generate the correct amount of random numbers', () => {
         const input = document.querySelector('[data-test=amount-of-number]') as HTMLInputElement;
         input.value = '27';
         fixture.detectChanges();
-
         const button = fixture.debugElement.query(By.css('[data-test=generate-custom]'));
+
         button.triggerEventHandler('click', null);
 
         expect(component.randomNumbers.length).toEqual(27);
